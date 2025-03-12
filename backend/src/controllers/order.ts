@@ -26,7 +26,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             sum = 0;
           }
 
-          return res.status(201).send(
+          return res.status(200).send(
             {
               id: faker.string.uuid(),
               total,

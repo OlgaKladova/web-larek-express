@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import path from 'path';
 import { errors } from 'celebrate';
+import { rateLimit } from 'express-rate-limit';
 import config from './config';
 import errorHandler from './middlewares/error-handler';
 import productRouter from './routes/product';
@@ -17,11 +18,12 @@ app.use(express.json());
 
 mongoose.connect(`${config.dbAddress}`);
 
+app.use(rateLimit);
 app.use(requestLogger);
 
 app.use('/product', productRouter);
 app.use('/order', orderRouter);
-app.use((_req: Request, _res: Response, next: NextFunction) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
+app.use('*', (_req: Request, _res: Response, next: NextFunction) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
 
 app.use(errorLogger);
 
