@@ -33,7 +33,7 @@ export const createProduct = (req: Request, res: Response, next: NextFunction) =
     });
 };
 
-export const getProducts = (req: Request, res: Response, next: NextFunction) => product.find({})
+export const getProducts = (_req: Request, res: Response, next: NextFunction) => product.find({})
   .then((products) => res.status(200).send(
     {
       items: products,

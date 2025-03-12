@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import path from 'path';
@@ -7,6 +7,7 @@ import config from './config';
 import errorHandler from './middlewares/error-handler';
 import productRouter from './routes/product';
 import orderRouter from './routes/order';
+import NotFoundError from './errors/not-found-error';
 import { errorLogger, requestLogger } from './middlewares/logger';
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(requestLogger);
 
 app.use('/product', productRouter);
 app.use('/order', orderRouter);
+app.use((_req: Request, _res: Response, next: NextFunction) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
 
 app.use(errorLogger);
 
